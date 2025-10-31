@@ -1,0 +1,14 @@
+[
+       {
+              "name": "functions",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "spacehud",
+              "isActive": "yes",
+              "script": "",
+              "isFolder": "no"
+       }
+]

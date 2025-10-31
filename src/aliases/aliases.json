@@ -1,0 +1,44 @@
+[
+       {
+              "name": "dumpShips",
+              "isActive": "yes",
+              "regex": "^dumpships$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "debug",
+              "isActive": "yes",
+              "regex": "^spacedebug ([0-1])$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "hideSpace",
+              "isActive": "yes",
+              "regex": "^hidespace$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "showSpace",
+              "isActive": "yes",
+              "regex": "^showspace$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "clearShips",
+              "isActive": "yes",
+              "regex": "^clearships$",
+              "script": "",
+              "isFolder": "no"
+       },
+       {
+              "name": "help",
+              "isActive": "yes",
+              "regex": "^helpspace$",
+              "script": "",
+              "isFolder": "no"
+       }
+]

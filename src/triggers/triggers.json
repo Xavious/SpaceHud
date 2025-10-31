@@ -1,0 +1,462 @@
+[
+       {
+              "name": "shipRadar",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_line>(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'[\\s]+(?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+))$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "projectileRadar",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_line>(?<ship_name>(A Heavy Rocket|A Concussion Missile|A Torpedo))(?<incoming> \\(Incoming\\))?[\\s]+(?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+))$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "fleetRadar",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_line>(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'[\\s]+(\\((?<ship_position>[\\w]+)\\) )?(?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+))$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipProximity",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'[\\s]+Prox: (?<ship_proximity>[0-9]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "projectileProximity",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_name>(A Heavy Rocket|A Concussion Missile|A Torpedo))(?<incoming> \\(Incoming\\))?[\\s]+Prox: (?<ship_proximity>[0-9]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipVelocity",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'[\\s]+Velocity: (?<ship_velocity>[0-9]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "projectileVelocity",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_name>(A Heavy Rocket|A Concussion Missile|A Torpedo))(?<incoming> \\(Incoming\\))?[\\s]+Velocity: (?<ship_velocity>[0-9]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "myCoordinates",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^Your Coordinates: (?<my_x>[0-9 \\-]+) (?<my_y>[0-9 \\-]+) (?<my_z>[0-9 \\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipLaunch",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' launches from the surface of [a-z A-Z]+, entering the starsystem at (?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipEntersSystem",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' enters the starsystem, coming out of its hyperjump at (?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipLand",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' lands on the surface of [0-9a-z A-Z\\-]+, disappearing from your scanner.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipLeavesSystem",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'s hyperdrive engines flare as it initiates a hyperjump, disappearing into the distance as a streak of light.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipExplodes",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' explodes in a blinding flash of light!$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipTractored",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' is pulled into a hangar on (?<ship_leader_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_leader_name>[a-zA-Z0-9 ]+)\\', disappearing from your scanner.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipHangarLaunch",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' launches from a hangar on (?<ship_leader_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_leader_name>[a-zA-Z0-9 ]+)\\', entering the starsystem at (?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipHangarLand",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' lands in a hangar on (?<ship_leader_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_leader_name>[a-zA-Z0-9 ]+)\\', disappearing from your scanner.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "shipDisappears",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "(?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\' disappears from your scanner.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "enterHyperspace",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^The ship lurches slightly as it makes the jump to lightspeed.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "exitHyperspace",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^The ship lurches slightly as it comes out of hyperspace.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "myShipLands",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^Landing sequence complete.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "myShipReadout",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^Speed: (?<ship_speed>[0-9]+)  Fuel Level: (?<ship_fuel>[0-9]+)%  Coords: (?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "proximityAlert",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^    Proximity alert: (?<ship_type>[a-zA-Z0-9 \\-]+) \\'(?<ship_name>[a-zA-Z0-9 ]+)\\'  (?<ship_x>[0-9\\-]+) (?<ship_y>[0-9\\-]+) (?<ship_z>[0-9\\-]+)$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       },
+       {
+              "name": "myShipLaunch",
+              "isActive": "yes",
+              "isFolder": "no",
+              "multiline": "no",
+              "multilineDelta": "0",
+              "matchall": "no",
+              "filter": "no",
+              "fireLength": "0",
+              "highlight": "no",
+              "highlightFG": "#ff0000",
+              "highlightBG": "#ffff00",
+              "patterns": [
+                     {
+                            "pattern": "^Launch complete.$",
+                            "type": "regex"
+                     }
+              ],
+              "script": ""
+       }
+]

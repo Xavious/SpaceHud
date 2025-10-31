@@ -1,0 +1,1 @@
+triggerShipProximity()
