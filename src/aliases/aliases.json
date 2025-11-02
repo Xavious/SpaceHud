@@ -40,5 +40,12 @@
               "regex": "^helpspace$",
               "script": "",
               "isFolder": "no"
+       },
+       {
+              "name": "spaceUpdate",
+              "isActive": "yes",
+              "regex": "^spaceupdate$",
+              "script": "",
+              "isFolder": "no"
        }
 ]

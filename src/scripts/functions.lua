@@ -620,3 +620,328 @@ function updateHud()
   end
   spacehud.table:assemble()
 end
+
+-- Get current installed version from package info
+function getCurrentVersion()
+  local package_info = getPackageInfo("SpaceHud")
+  if package_info and package_info.version then
+    return package_info.version
+  end
+  return "unknown"
+end
+
+-- Version comparison function (semantic versioning)
+function compareVersions(v1, v2)
+  -- Remove 'v' prefix if present
+  v1 = v1:gsub("^v", "")
+  v2 = v2:gsub("^v", "")
+
+  -- Split versions into parts
+  local v1_parts = {}
+  local v2_parts = {}
+
+  for num in v1:gmatch("%d+") do
+    table.insert(v1_parts, tonumber(num))
+  end
+
+  for num in v2:gmatch("%d+") do
+    table.insert(v2_parts, tonumber(num))
+  end
+
+  -- Compare each part
+  for i = 1, math.max(#v1_parts, #v2_parts) do
+    local v1_part = v1_parts[i] or 0
+    local v2_part = v2_parts[i] or 0
+
+    if v1_part < v2_part then
+      return -1  -- v1 is older
+    elseif v1_part > v2_part then
+      return 1   -- v1 is newer
+    end
+  end
+
+  return 0  -- versions are equal
+end
+
+-- Handle update check response
+function handleUpdateCheck(event, filename)
+  -- Only handle our update check download
+  if not filename or not filename:match("spacehud_update_check%.json") then
+    return
+  end
+
+  -- Kill the event handler after first successful call
+  if spacehud.update_check_handler then
+    killAnonymousEventHandler(spacehud.update_check_handler)
+    spacehud.update_check_handler = nil
+  end
+
+  -- Read the downloaded JSON file
+  local file = io.open(filename, "r")
+  if not file then
+    cecho("\n[<cyan>SpaceHud<reset>] <red>Update check failed - could not retrieve version info<reset>\n")
+    return
+  end
+
+  local content = file:read("*all")
+  file:close()
+
+  -- Parse JSON to extract latest release tag
+  local latest_version = content:match('"tag_name"%s*:%s*"([^"]+)"')
+
+  if not latest_version then
+    cecho("\n[<cyan>SpaceHud<reset>] <red>Update check failed - could not parse version from GitHub<reset>\n")
+    return
+  end
+
+  -- Get current installed version
+  local current_version = getCurrentVersion()
+
+  -- Compare versions
+  local comparison = compareVersions(current_version, latest_version)
+
+  if comparison < 0 then
+    -- Update available
+    local download_url = content:match('"browser_download_url"%s*:%s*"([^"]+%.mpackage)"')
+    if not download_url then
+      -- No .mpackage found, just show release page
+      local release_url = string.format("https://github.com/%s/releases/latest", spacehud.config.github_repo)
+      cecho("\n[<cyan>SpaceHud<reset>] <green>Update available!<reset> <yellow>v" .. current_version .. "<reset> → <white>" .. latest_version .. "<reset>\n")
+      cecho("[<cyan>SpaceHud<reset>] Download from: <cyan>" .. release_url .. "<reset>\n")
+      return
+    end
+
+    -- Store the download info
+    spacehud.pending_update = {
+      version = latest_version,
+      url = download_url
+    }
+
+    -- Show update popup
+    showUpdatePopup(current_version, latest_version)
+  else
+    cecho("\n[<cyan>SpaceHud<reset>] You are running the latest version (<white>v" .. current_version .. "<reset>)\n")
+  end
+end
+
+-- Show update popup with Yes/No buttons
+function showUpdatePopup(current_version, latest_version)
+  -- Close existing popup if any
+  if spacehud.update_popup then
+    spacehud.update_popup:hide()
+    spacehud.update_popup = nil
+  end
+
+  -- Create background overlay as a Label (supports setStyleSheet)
+  spacehud.update_popup = Geyser.Label:new({
+    name = "spacehud_update_popup",
+    x = "0", y = "0",
+    width = "100%", height = "100%",
+  })
+
+  spacehud.update_popup:setStyleSheet([[
+    background-color: rgba(0, 0, 0, 180);
+  ]])
+
+  -- Create the dialog box (centered within the overlay)
+  spacehud.update_dialog = Geyser.Label:new({
+    name = "spacehud_update_dialog",
+    x = "40%", y = "40%",
+    width = "500px", height = "300px",
+  }, spacehud.update_popup)
+
+  spacehud.update_dialog:setStyleSheet([[
+    background-color: rgb(47, 49, 54);
+    border: 2px solid rgb(100, 105, 115);
+    border-radius: 10px;
+  ]])
+
+  -- Title
+  local title = Geyser.Label:new({
+    name = "spacehud_update_title",
+    x = 0, y = "10px",
+    width = "100%", height = "40px",
+  }, spacehud.update_dialog)
+
+  title:setStyleSheet([[
+    background-color: transparent;
+    color: rgb(88, 214, 141);
+    font-size: 18pt;
+    font-weight: bold;
+    qproperty-alignment: 'AlignCenter';
+  ]])
+  title:echo("SpaceHud Update Available!")
+
+  -- Message
+  local message = Geyser.Label:new({
+    name = "spacehud_update_message",
+    x = "20px", y = "60px",
+    width = "460px", height = "120px",
+  }, spacehud.update_dialog)
+
+  message:setStyleSheet([[
+    background-color: transparent;
+    color: rgb(220, 220, 220);
+    font-size: 12pt;
+    qproperty-alignment: 'AlignCenter';
+    qproperty-wordWrap: true;
+  ]])
+
+  local msg_text = string.format([[<p style="text-align: center; line-height: 1.5;">
+Current Version: v%s<br/>
+Latest Version: %s<br/>
+<br/>
+Would you like to download and install it now?
+</p>]], current_version, latest_version)
+  message:echo(msg_text)
+
+  -- Yes button
+  local yes_button = Geyser.Label:new({
+    name = "spacehud_update_yes",
+    x = "80px", y = "220px",
+    width = "150px", height = "50px",
+  }, spacehud.update_dialog)
+
+  yes_button:setStyleSheet([[
+    QLabel {
+      background-color: rgb(88, 214, 141);
+      border: 1px solid rgb(70, 180, 120);
+      border-radius: 5px;
+      color: rgb(0, 0, 0);
+      font-size: 14pt;
+      font-weight: bold;
+      qproperty-alignment: 'AlignCenter';
+    }
+    QLabel:hover {
+      background-color: rgb(100, 230, 160);
+    }
+  ]])
+  yes_button:echo("Yes")
+  yes_button:setClickCallback(function()
+    if spacehud.update_popup then
+      spacehud.update_popup:hide()
+      spacehud.update_popup = nil
+    end
+    confirmUpdateInstall()
+  end)
+
+  -- No button
+  local no_button = Geyser.Label:new({
+    name = "spacehud_update_no",
+    x = "270px", y = "220px",
+    width = "150px", height = "50px",
+  }, spacehud.update_dialog)
+
+  no_button:setStyleSheet([[
+    QLabel {
+      background-color: rgb(64, 68, 75);
+      border: 1px solid rgb(100, 105, 115);
+      border-radius: 5px;
+      color: rgb(220, 220, 220);
+      font-size: 14pt;
+      font-weight: bold;
+      qproperty-alignment: 'AlignCenter';
+    }
+    QLabel:hover {
+      background-color: rgb(80, 85, 95);
+    }
+  ]])
+  no_button:echo("No")
+  no_button:setClickCallback(function()
+    if spacehud.update_popup then
+      spacehud.update_popup:hide()
+      spacehud.update_popup = nil
+    end
+    cecho("\n[<cyan>SpaceHud<reset>] Update cancelled. Run <white>spaceupdate<reset> again later to install.\n")
+    spacehud.pending_update = nil
+  end)
+end
+
+-- Confirm and start the update installation
+function confirmUpdateInstall()
+  if not spacehud.pending_update then
+    return
+  end
+
+  local version = spacehud.pending_update.version
+  local url = spacehud.pending_update.url
+  local filename = getMudletHomeDir() .. "/SpaceHud_" .. version .. ".mpackage"
+
+  cecho("\n[<cyan>SpaceHud<reset>] Downloading <white>" .. version .. "<reset>...\n")
+
+  -- Register event handler for download completion
+  if spacehud.install_handler then
+    killAnonymousEventHandler(spacehud.install_handler)
+  end
+  spacehud.install_handler = registerAnonymousEventHandler("sysDownloadDone", "handleInstallDownload")
+
+  -- Store the filename for the handler
+  spacehud.install_filename = filename
+
+  -- Download the package
+  downloadFile(filename, url)
+end
+
+-- Handle the downloaded package
+function handleInstallDownload(event, filename)
+  -- Only handle our install download
+  if not filename or filename ~= spacehud.install_filename then
+    return
+  end
+
+  -- Kill the event handler
+  if spacehud.install_handler then
+    killAnonymousEventHandler(spacehud.install_handler)
+    spacehud.install_handler = nil
+  end
+
+  cecho("\n[<cyan>SpaceHud<reset>] <green>Download complete!<reset> Installing package...\n")
+
+  -- Uninstall old version first for clean update
+  uninstallPackage("SpaceHud")
+
+  -- Install the new package and check result
+  local success = installPackage(filename)
+
+  if success then
+    cecho("[<cyan>SpaceHud<reset>] <green>Installation complete!<reset> The updated package is now active.\n")
+    cecho("[<cyan>SpaceHud<reset>] <yellow>Note:<reset> If you experience issues, try reloading your profile.\n")
+  else
+    cecho("[<cyan>SpaceHud<reset>] <red>Installation failed!<reset> Please try downloading manually from:\n")
+    cecho("[<cyan>SpaceHud<reset>] <cyan>https://github.com/" .. spacehud.config.github_repo .. "/releases/latest<reset>\n")
+  end
+
+  -- Clear pending update
+  spacehud.pending_update = nil
+  spacehud.install_filename = nil
+end
+
+-- Check for updates from GitHub
+function checkForUpdates(force)
+  if not force and spacehud.config.update_check_done then
+    return  -- Only check once per session unless forced
+  end
+
+  spacehud.config.update_check_done = true
+
+  local api_url = string.format("https://api.github.com/repos/%s/releases/latest", spacehud.config.github_repo)
+  local temp_file = getMudletHomeDir() .. "/spacehud_update_check.json"
+
+  -- Register event handler for download completion
+  if spacehud.update_check_handler then
+    killAnonymousEventHandler(spacehud.update_check_handler)
+  end
+  spacehud.update_check_handler = registerAnonymousEventHandler("sysDownloadDone", "handleUpdateCheck")
+
+  -- Download the GitHub API response
+  downloadFile(temp_file, api_url)
+end
+
+-- Manual update check (can be called anytime by user)
+function manualUpdateCheck()
+  cecho("\n[<cyan>SpaceHud<reset>] Checking for updates...\n")
+  checkForUpdates(true)  -- Force check
+end
+
+-- Check for updates on load (once per session)
+checkForUpdates(false)

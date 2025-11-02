@@ -7,6 +7,12 @@ spacehud.input = spacehud.input or {}
 spacehud.label = spacehud.label or {}
 spacehud.sort_by = spacehud.sort_by or "proximity"
 spacehud.sort_by_invert = spacehud.sort_by_invert or -1
+
+-- Configuration
+spacehud.config = spacehud.config or {
+  github_repo = "Xavious/SpaceHud",
+  update_check_done = false
+}
 spacehud.type_width = spacehud.type_width or 35
 spacehud.name_width = spacehud.name_width or 25
 spacehud.xyz_width = spacehud.xyz_width or 10
