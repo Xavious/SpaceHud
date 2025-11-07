@@ -385,12 +385,12 @@ end
 
 function triggerMyShipLands()
     debug("triggerMyShipLand")
-    spacehud.container:hide()
+    --spacehud.container:hide()
 end
 
 function triggerMyShipLaunch()
     debug("triggerMyShipLaunch")
-    spacehud.container:show()
+    --spacehud.container:show()
 end
 
 function triggerMyShipReadout()
