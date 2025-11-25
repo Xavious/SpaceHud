@@ -1,1 +1,1 @@
-manualUpdateCheck()
+checkForUpdates(true)

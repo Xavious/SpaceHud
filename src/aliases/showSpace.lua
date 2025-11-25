@@ -1,1 +1,1 @@
-showSpace()
+spacehud.show()

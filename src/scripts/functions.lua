@@ -32,12 +32,12 @@ spacedebug <1/0>     - Turn debugging on (1) or off (0)
   ]])
 end
 
-function showSpace()
+function spacehud.show()
   spacehud.container:show()
   spacehud.container:raiseAll()
 end
 
-function hideSpace()
+function spacehud.hide()
   spacehud.container:hide()
 end
 

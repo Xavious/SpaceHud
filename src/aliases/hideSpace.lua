@@ -1,1 +1,1 @@
-hideSpace()
+spacehud.hide()
